@@ -4,25 +4,27 @@ angular.module('tableModule', [])
 		var row = 1;
 
 		var compileTemplate = function(templ, parent, scope) {
-			($compile(templ)(scope)).appendTo(parent);
+			($compile(templ)(scope)).fadeIn().appendTo(parent);
 		}
 
-		$scope.valObject = {"v0_0": ""};
+		$scope.valObject = {};
+		$scope.valObject.values = [];
+		$scope.valObject.values[0] = [];
+		$scope.valObject.values[0][0] = '';
 
 		$scope.addRow = function() {
 			var trLast = $('<tr></tr>').appendTo('table.automata-table');
+			$scope.valObject.values[row] = [];
 
 			for (var i = 0; i!=col; i++) {
 				var td = $('<td></td>').appendTo(trLast);
 				if (i == 0) {
-					var str = 'c' + row;
-					$scope.valObject[str] = false;
-					compileTemplate('<input type="checkbox" ng-model="valObject.' + str +'"/>q' + (row - 1) + '<br/>', td, $scope);
+					$scope.valObject.values[row][i] = false;
+					compileTemplate('<input type="checkbox" ng-model="valObject.values[' + row +'][' + i + ']"/>q' + (row - 1) + '<br/>', td, $scope);
 				}
 				else {
-					var str = 'v' + row + '_' + i;
-					$scope.valObject[str] = "";
-					compileTemplate('<input type="text" ng-model="valObject.' + str +'"/>', td, $scope);
+					$scope.valObject.values[row][i] = "";
+					compileTemplate('<input type="text" ng-model="valObject.values[' + row +'][' + i + ']"/>', td, $scope);
 				}
 			}
 
@@ -33,9 +35,8 @@ angular.module('tableModule', [])
 			var trList = $('table.automata-table tr');
 
 			for (var i = 0; i!=row; i++) {
-				var str = 'v' + i + '_' + col;
-				$scope.valObject[str] = "";
-				compileTemplate('<td><input type="text" ng-model="valObject.' + str +'"/></td>', trList[i], $scope);
+				$scope.valObject.values[i][col] = "";
+				compileTemplate('<td><input type="text" ng-model="valObject.values[' + i +'][' + col + ']"/></td>', trList[i], $scope);
 			}
 
 			col++;
