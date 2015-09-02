@@ -43,15 +43,19 @@ angular.module('tableModule', [])
 		}
 
 		$scope.delRow = function() {
-			$('table.automata-table tr:last').remove();
-			row--;
+			if (row > 1) {
+				$('table.automata-table tr:last').remove();
+				row--;
+			}
 		}
 
 		$scope.delCol = function() {
-			$('table.automata-table tr').each(function(index, el) {
-				$(this).children().last().remove();
-			});
-			col--;
+			if (col > 1) {
+				$('table.automata-table tr').each(function(index, el) {
+					$(this).children().last().remove();
+				});
+				col--;
+			}
 		}
 
 		$scope.sendValues = function() {
